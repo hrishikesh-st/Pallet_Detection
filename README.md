@@ -43,7 +43,7 @@
    ```bash
    pip install -r requirements.txt
    ```
-   
+
 3. Create a workspace:
    ```bash
    mkdir -p pallet_detection_ws/src
