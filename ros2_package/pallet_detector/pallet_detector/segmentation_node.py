@@ -7,6 +7,7 @@ from cv_bridge import CvBridge
 from ultralytics import YOLO
 import cv2
 import numpy as np
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 
 class SegmentationNode(Node):
@@ -42,11 +43,16 @@ class SegmentationNode(Node):
 
         self.bridge = CvBridge()
 
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+            depth=10
+        )
+
         self.subscription = self.create_subscription(
             Image,
             self.image_topic,
             self.image_callback,
-            10
+            qos_profile
         )
         self.get_logger().info(f"Subscribed to image topic: {self.image_topic}")
 

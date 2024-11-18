@@ -1,5 +1,14 @@
 # Pallet Detection and Segmentation in ROS2
 
+</div>
+</figure><figure>
+<div align="center">
+<img src='media/teaser.png', width=70%>
+<figcaption>Optimized Model Prediction Deployed on an NVIDIA Orin Nano</figcaption>
+</div>
+
+---
+
 ## Tasks and Workflow
 
 1. **Dataset Acquisition and Preparation**
@@ -26,6 +35,26 @@
        - Subscribe to image topic.
        - Perform object detection and segmentation.
        - Visualize the results in real-time using OpenCV window.
+
+---
+
+## Quick Links
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Running ROS2 Nodes](#running-ros2-nodes)
+    - [Using ROS Bags](#using-ros-bags)
+    - [Real-time Camera Feed](#real-time-camera-feed)
+  - [Viewing Results](#viewing-results)
+    - [Object Detection Results](#object-detection-results)
+    - [Semantic Segmentation Results](#semantic-segmentation-results)
+  - [Training and Fine-tuning](#training-and-fine-tuning)
+    - [Object Detection](#object-detection)
+    - [Semantic Segmentation](#semantic-segmentation)
+    - [Visualizing Training Metrics](#visualizing-training-metrics)
+    - [Metrics and Performance](#metrics-and-performance)
+- [Model Optimization](#model-optimization)
+  - [Results](#results)
 
 ---
 
@@ -63,7 +92,7 @@
 
 ## Usage
 
-### Runnig ROS2 Nodes
+### Running ROS2 Nodes
 
 ROS2 nodes are implemented for object detection and semantic segmentation. The nodes can be run using the following steps. You can run the nodes on both real-time camera feed or recorded video.
 
@@ -79,14 +108,33 @@ ROS2 nodes are implemented for object detection and semantic segmentation. The n
 3. Download the trained models from the following link:
    - [Model Link: Trained Models](https://drive.google.com/drive/folders/1tYH8X1ABNBdpegmpkLEVGOnUqnz6D0Ra?usp=sharing) 
 
-4. Run the detection node:
+4. Run the detection node on the provided ROS Bag:
+   ```bash
+   ros2 run pallet_detector detection_node --ros-args -p model_path:=<path_to_pytorch_model> -p image_topic:=<topic_name>
+   ```
+   Exmaple for above provided ROS Bag (Intel Realsense D435i):
    ```bash
    ros2 run pallet_detector detection_node --ros-args -p model_path:=<path_to_pytorch_model> -p image_topic:=/color/image_raw
    ```
 
+   Exmaple for the test ROS Bag (Zed2i):
+   ```bash
+   ros2 run pallet_detector detection_node --ros-args -p model_path:=<path_to_pytorch_model> -p image_topic:=/robot1/zed2i/left/image_rect_color
+   ```
+
 5. Run the segmentation node:
    ```bash
+   ros2 run pallet_detector segmentation_node --ros-args -p model_path:=<path_to_pytorch_model> -p image_topic:=<topic_name>
+   ```
+
+   Exmaple for above provided ROS Bag (Intel Realsense D435i):
+   ```bash
    ros2 run pallet_detector segmentation_node --ros-args -p model_path:=<path_to_pytorch_model> -p image_topic:=/color/image_raw
+   ```
+
+   Exmaple for the test ROS Bag (Zed2i):
+   ```bash
+   ros2 run pallet_detector segmentation_node --ros-args -p model_path:=<path_to_pytorch_model> -p image_topic:=/robot1/zed2i/left/image_rect_color
    ```
 
 #### Real-time Camera Feed
@@ -99,18 +147,49 @@ For real-time camera feed, you can follow the same steps as above. Make sure to 
 Both the detection and segmentation nodes display results in real-time via OpenCV windows. Tested the model on the following scenarios:
 
 #### Object Detection Results
-Tested the model on a real-time camera feed and the results were as follows:
-![Example Output 1](media/gifs/scenario_5_detect.gif)
-![Example Output 2](media/gifs/scenario_4_detect.gif)
-![Example Output 3](media/gifs/scenario_3_detect.gif)
-![Example Output 4](media/gifs/scenario_2_detect.gif)
-![Example Output 5](media/gifs/scenario_1_detect.gif)
+Tested the model on a real-time camera feed (Intel Realsense D435i) and the results were as follows:
+<figure>
+<div align="center">
+<img src='media/gifs/scenario_5_detect.gif'>
+<figcaption>Good lighting conditions</figcaption>
 
+</div>
+</figure>
+<figure>
+<div align="center">
+<img src='media/gifs/scenario_4_detect.gif'>
+<figcaption>Low lighting conditins and shadows</figcaption>
+
+</div>
+</figure><figure>
+<div align="center">
+<img src='media/gifs/scenario_3_detect.gif'>
+<figcaption>In a machine workshop</figcaption>
+
+</div>
+</figure><figure>
+<div align="center">
+<img src='media/gifs/scenario_2_detect.gif'>
+<figcaption>At an oblique angle and poor contrast monitor</figcaption>
+
+</div>
+</figure><figure>
+<div align="center">
+<img src='media/gifs/scenario_1_detect.gif'>
+<figcaption>On a poor contrast monitor</figcaption>
+
+</div>
+</figure>
 
 #### Semantic Segmentation Results
-Tested the model on a real-time camera feed and the results were as follows:
-![Example Output 1](media/gifs/scenario_5_segment.gif)
+Tested the model on a real-time camera feed (Intel Realsense D435i) and the results were as follows:
+<figure>
+<div align="center">
+<img src='media/gifs/scenario_5_segment.gif'>
+<figcaption>Segmentation Results</figcaption>
 
+</div>
+</figure>
 
 ### Training and Fine-tuning
 
@@ -128,14 +207,14 @@ Tested the model on a real-time camera feed and the results were as follows:
    │   ├── image1.txt
    │   ├── image2.txt
    │   └── ...
-   ``` 
+   ```
 
 3. Train the object detection model:
    ```bash
    usage: train_detection.py [-h] --image_dir IMAGE_DIR --label_dir LABEL_DIR --output_dir OUTPUT_DIR [--epochs EPOCHS] [--batch_size BATCH_SIZE] [--imgsz IMGSZ]
-
+   
    Detection Dataset Preparation and Training
-
+   
    options:
    -h, --help            show this help message and exit
    --image_dir IMAGE_DIR
@@ -196,9 +275,9 @@ Note: Output directory will contain the splitted datset in train, val and test f
 3. Train the semantic segmentation model:
    ```bash
    usage: train_segmentation.py [-h] --dataset_path DATASET_PATH --yaml_path YAML_PATH [--epochs EPOCHS] [--batch_size BATCH_SIZE] [--imgsz IMGSZ]
-
+   
    Segmentation Training
-
+   
    options:
    -h, --help            show this help message and exit
    --dataset_path DATASET_PATH
@@ -238,7 +317,7 @@ python training_metrics_plot.py --csv-path <path-to-results.csv> --output-dir <o
 ```
 
 Following are the plots generated for YoloV8x detection model training:
-<p align="left">
+<p align="center">
   <img src="media/yolov8x_det_training_metrics.png" alt="Stitched Image" style="width: 850px;"/>
 </p>
 
@@ -250,9 +329,9 @@ To evaluate the performance of the trained models, run the `evaluate_detection_p
    ```bash
    usage: evaluate_detection_performance.py [-h] --model-path MODEL_PATH --data-yaml DATA_YAML
                                          [--img-size IMG_SIZE] [--batch-size BATCH_SIZE] [--plots]
-
+   
    Evaluate detection model performance.
-
+   
    options:
    -h, --help            show this help message and exit
    --model-path MODEL_PATH
@@ -274,9 +353,9 @@ To evaluate the performance of the trained models, run the `evaluate_detection_p
    ```bash
    usage: evaluate_segmentation_performance.py [-h] --model-path MODEL_PATH --data-yaml DATA_YAML
                                             [--img-size IMG_SIZE] [--batch-size BATCH_SIZE] [--plots]
-
+   
    Evaluate segmentation model performance.
-
+   
    options:
    -h, --help            show this help message and exit
    --model-path MODEL_PATH
@@ -350,7 +429,7 @@ options:
   --save-dir SAVE_DIR   Directory to save annotated predictions (default: 'results').
   --conf-threshold CONF_THRESHOLD
                         Confidence threshold for predictions (default: 0.5).
-```   
+```
 
 Example:
 ```bash
@@ -373,7 +452,7 @@ options:
   --save-dir SAVE_DIR   Directory to save annotated results.
   --conf-threshold CONF_THRESHOLD
                         Confidence threshold for predictions (default: 0.5).
-```   
+```
 
 Example:
 ```bash
@@ -382,15 +461,18 @@ python infer_segment.py --image-path <path-to-image> --model-path <path-to-model
 
 The inference results from the optimized models are as follows on the NVIDIA Orin Nano platform with half precision (FP16):
 
-#### Object Detection Results
-<p align="left">
-  <img src="media/test_detection_pred.jpg" alt="Stitched Image" style="width: 850px;"/>
-</p>
+#### Results
 
-#### Segmentation Results
-<p align="left">
-  <img src="media/test_segmentation_pred.jpg" alt="Stitched Image" style="width: 850px;"/>
-</p>
+<div style="display: flex; justify-content: center; gap: 20px; align-items: center;">
+  <figure style="text-align: center;">
+    <img src="media/test_detection_pred.jpg" alt="Detection Prediction" style="width: 500px;">
+    <figcaption>Detection Prediction</figcaption>
+  </figure>
+  <figure style="text-align: center;">
+    <img src="media/test_segmentation_pred.jpg" alt="Segmentation Prediction" style="width: 500px;">
+    <figcaption>Segmentation Prediction</figcaption>
+  </figure>
+</div>
 
 
 ---
