@@ -7,6 +7,7 @@ from cv_bridge import CvBridge
 from ultralytics import YOLO
 import cv2
 import numpy as np
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 
 class DetectionNode(Node):
@@ -17,7 +18,7 @@ class DetectionNode(Node):
             namespace='',
             parameters=[
                 ('model_path', ''),
-                ('conf_threshold', 0.5),
+                ('conf_threshold', 0.3),
                 ('image_topic', '/color/image_raw'),
                 ('window_name', 'YOLO Detection')
             ]
@@ -41,12 +42,17 @@ class DetectionNode(Node):
 
         self.bridge = CvBridge()
 
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+            depth=10
+        )
+
         # Image Subscriber
         self.subscription = self.create_subscription(
             Image,
             self.image_topic,
             self.image_callback,
-            10
+            qos_profile
         )
         self.get_logger().info(f"Subscribed to image topic: {self.image_topic}")
 
