@@ -1,11 +1,17 @@
 # Pallet Detection and Segmentation in ROS2
 
 </div>
-</figure><figure>
+</figure>
+<figure>
 <div align="center">
-<img src='media/teaser.png', width=70%>
-<figcaption>Optimized Model Prediction Deployed on an NVIDIA Orin Nano</figcaption>
+<img src='media/teaser.png' width="70%">
+<figcaption>
+    <div>
+        Optimized Model Prediction<br>Deployed on an NVIDIA Orin Nano
+    </div>
+</figcaption>
 </div>
+
 
 ---
 
@@ -148,45 +154,75 @@ Both the detection and segmentation nodes display results in real-time via OpenC
 
 #### Object Detection Results
 Tested the model on a real-time camera feed (Intel Realsense D435i) and the results were as follows:
-<figure>
-<div align="center">
-<img src='media/gifs/scenario_5_detect.gif'>
-<figcaption>Good lighting conditions</figcaption>
 
-</div>
+<figure>
+    <div align="center">
+        <img src='media/gifs/scenario_5_detect.gif'>
+        <figcaption>
+            <div>
+                Good lighting conditions
+            </div>
+        </figcaption>
+    </div>
 </figure>
+
 <figure>
-<div align="center">
-<img src='media/gifs/scenario_4_detect.gif'>
-<figcaption>Low lighting conditins and shadows</figcaption>
+    <div align="center">
+        <img src='media/gifs/scenario_4_detect.gif'>
+        <figcaption>
+            <div>
+                Low lighting conditions and shadows
+            </div>
+        </figcaption>
+    </div>
+</figure>
 
-</div>
-</figure><figure>
-<div align="center">
-<img src='media/gifs/scenario_3_detect.gif'>
-<figcaption>In a machine workshop</figcaption>
+<figure>
+    <div align="center">
+        <img src='media/gifs/scenario_3_detect.gif'>
+        <figcaption>
+            <div>
+                In a machine workshop
+            </div>
+        </figcaption>
+    </div>
+</figure>
 
-</div>
-</figure><figure>
-<div align="center">
-<img src='media/gifs/scenario_2_detect.gif'>
-<figcaption>At an oblique angle and poor contrast monitor</figcaption>
+<figure>
+    <div align="center">
+        <img src='media/gifs/scenario_2_detect.gif'>
+        <figcaption>
+            <div>
+                At an oblique angle and poor contrast monitor
+            </div>
+        </figcaption>
+    </div>
+</figure>
 
-</div>
-</figure><figure>
-<div align="center">
-<img src='media/gifs/scenario_1_detect.gif'>
-<figcaption>On a poor contrast monitor</figcaption>
-
-</div>
+<figure>
+    <div align="center">
+        <img src='media/gifs/scenario_1_detect.gif'>
+        <figcaption>
+            <div>
+                On a poor contrast monitor
+            </div>
+        </figcaption>
+    </div>
 </figure>
 
 #### Semantic Segmentation Results
 Tested the model on a real-time camera feed (Intel Realsense D435i) and the results were as follows:
 <figure>
-<div align="center">
-<img src='media/gifs/scenario_5_segment.gif'>
-<figcaption>Segmentation Results</figcaption>
+    <div align="center">
+        <img src='media/gifs/scenario_5_segment.gif'>
+        <figcaption>
+            <div>
+                Segmentation Results
+            </div>
+        </figcaption>
+    </div>
+</figure>
+
 
 </div>
 </figure>
@@ -463,16 +499,22 @@ The inference results from the optimized models are as follows on the NVIDIA Ori
 
 #### Results
 
-<div style="display: flex; justify-content: center; gap: 20px; align-items: center;">
-  <figure style="text-align: center;">
+<div style="display: flex; justify-content: flex-start; gap: 20px; align-items: center;">
+  <figure style="text-align: center; margin: 0;">
     <img src="media/test_detection_pred.jpg" alt="Detection Prediction" style="width: 500px;">
-    <figcaption>Detection Prediction</figcaption>
+    <figcaption>
+      <div>
+        Detection Prediction
+      </div>
+    </figcaption>
   </figure>
-  <figure style="text-align: center;">
+  <figure style="text-align: center; margin: 0;">
     <img src="media/test_segmentation_pred.jpg" alt="Segmentation Prediction" style="width: 500px;">
-    <figcaption>Segmentation Prediction</figcaption>
+    <figcaption>
+      <div>
+        Segmentation Prediction
+      </div>
+    </figcaption>
   </figure>
 </div>
-
-
 ---
