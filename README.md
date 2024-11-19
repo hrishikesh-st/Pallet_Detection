@@ -517,4 +517,3 @@ The inference results from the optimized models are as follows on the NVIDIA Ori
     </figcaption>
   </figure>
 </div>
----
